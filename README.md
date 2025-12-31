@@ -62,8 +62,6 @@ raven config set anthropic_api_key sk-ant-xxx
 raven config set openai_api_key sk-xxx
 raven config set groq_api_key gsk-xxx
 
-# View current config
-raven config list
 ```
 
 ### Supported Providers
