@@ -8,6 +8,7 @@ export * from './codeblocks.js';
 export * from './quiz.js';
 export * from './hr.js';
 export * from './text.js';
+export * from './textStyles.js';
 
 import { printPageBorder, addSpacing } from './utils.js';
 import {

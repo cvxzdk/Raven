@@ -1,50 +1,49 @@
-// src/ui/render/text.js
-// Convert to ES modules
-
 import {
   PAGE_WIDTH,
   INNER_PADDING,
   CONTENT_WIDTH,
   bgDark,
-  underline,
   reset,
-  fg,
-  italic,
   printWithBorders,
   stripAnsi,
   wrapText,
   addSpacing
 } from './utils.js';
-
-const underlineInlineCode = (line) => {
-  return line.replace(/`([^`]+)`/g, (_, code) => underline + code + reset + bgDark);
-};
+import { applyInlineStyles } from './textStyles.js';
 
 export const renderText = (text, wrap = true) => {
   const maxWidth = CONTENT_WIDTH;
 
-  const processedText = underlineInlineCode(text);
+  const styledText = applyInlineStyles(text);
 
   if (wrap) {
-    const plainText = stripAnsi(processedText);
+    const plainText = stripAnsi(text);
     const lines = wrapText(plainText, maxWidth);
-
+    
+    let charIndex = 0;
     lines.forEach(line => {
+      const endIndex = charIndex + line.length;
+      const originalSegment = text.substring(charIndex, endIndex);
+      const styledSegment = applyInlineStyles(originalSegment);
+      
       const content = ' '.repeat(INNER_PADDING)
-        + line
-        + ' '.repeat(maxWidth - line.length)
+        + styledSegment
+        + ' '.repeat(maxWidth - stripAnsi(styledSegment).length)
         + ' '.repeat(INNER_PADDING);
       printWithBorders(content);
+      
+      charIndex = endIndex;
     });
   } else {
-    const plainLine = stripAnsi(processedText);
+    const plainLine = stripAnsi(styledText);
     const displayLine = plainLine.length > maxWidth
       ? plainLine.substring(0, maxWidth - 3) + '...'
       : plainLine;
 
+    const styledLine = applyInlineStyles(displayLine);
     const content = ' '.repeat(INNER_PADDING)
-      + displayLine
-      + ' '.repeat(maxWidth - displayLine.length)
+      + styledLine
+      + ' '.repeat(maxWidth - stripAnsi(styledLine).length)
       + ' '.repeat(INNER_PADDING);
     printWithBorders(content);
   }
