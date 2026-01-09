@@ -1,4 +1,3 @@
-// src/api/providers/openai.js
 export class OpenAIProvider {
   constructor(client) {
     this.client = client;

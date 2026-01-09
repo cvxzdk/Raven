@@ -1,10 +1,3 @@
-// src/ui/components/output.js
-// Parses markdown content into structured data for rendering
-
-/**
- * Parse markdown content into structured blocks
- * Returns array of parsed blocks with type and content
- */
 export function parseMarkdown(content) {
   const lines = content.split('\n');
   const blocks = [];
@@ -14,7 +7,6 @@ export function parseMarkdown(content) {
     const line = lines[i];
     const trimmedLine = line.trim();
     
-    // Code blocks
     if (trimmedLine.startsWith('```')) {
       const language = trimmedLine.slice(3).trim() || 'text';
       const codeLines = [];
@@ -32,11 +24,10 @@ export function parseMarkdown(content) {
           content: codeLines.join('\n')
         });
       }
-      i++; // Skip closing ```
+      i++;
       continue;
     }
-    
-    // Tables
+
     if (trimmedLine.includes('|') && trimmedLine.split('|').length > 2) {
       const tableLines = [lines[i]];
       i++;
@@ -53,7 +44,6 @@ export function parseMarkdown(content) {
       continue;
     }
     
-    // Headers (# ## ###)
     if (trimmedLine.match(/^#{1,3}\s/)) {
       const match = trimmedLine.match(/^(#{1,3})\s+(.*)/);
       if (match) {
@@ -69,7 +59,6 @@ export function parseMarkdown(content) {
       }
     }
     
-    // Bullet lists (-, *, +)
     if (trimmedLine.match(/^[-*+]\s/)) {
       const items = [];
       while (i < lines.length && lines[i].trim().match(/^[-*+]\s/)) {
@@ -83,7 +72,6 @@ export function parseMarkdown(content) {
       continue;
     }
     
-    // Numbered lists (1. 2. 3. etc)
     if (trimmedLine.match(/^\d+\.\s/)) {
       const items = [];
       while (i < lines.length && lines[i].trim().match(/^\d+\.\s/)) {
@@ -96,8 +84,7 @@ export function parseMarkdown(content) {
       });
       continue;
     }
-    
-    // Blockquotes (>)
+
     if (trimmedLine.startsWith('>')) {
       blocks.push({
         type: 'blockquote',
@@ -107,7 +94,6 @@ export function parseMarkdown(content) {
       continue;
     }
     
-    // Horizontal rules (---, ***, ___)
     if (trimmedLine.match(/^(---+|\*\*\*+|___+)$/)) {
       blocks.push({
         type: 'hr'
@@ -116,7 +102,6 @@ export function parseMarkdown(content) {
       continue;
     }
     
-    // Comments (//)
     if (trimmedLine.startsWith('//')) {
       blocks.push({
         type: 'comment',
@@ -125,8 +110,7 @@ export function parseMarkdown(content) {
       i++;
       continue;
     }
-    
-    // Empty lines
+
     if (trimmedLine === '') {
       blocks.push({
         type: 'empty'
@@ -135,7 +119,6 @@ export function parseMarkdown(content) {
       continue;
     }
     
-    // Regular text
     blocks.push({
       type: 'text',
       content: line

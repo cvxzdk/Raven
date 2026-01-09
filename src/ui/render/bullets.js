@@ -1,6 +1,3 @@
-// src/ui/render/bullets.js
-// Convert to ES modules
-
 import {
   PAGE_WIDTH,
   INNER_PADDING,

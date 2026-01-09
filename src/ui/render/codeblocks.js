@@ -1,6 +1,3 @@
-// src/ui/render/codeblocks.js
-// FIXED - Code wraps to multiple lines instead of truncating
-
 import {
   PAGE_WIDTH,
   INNER_PADDING,
@@ -15,7 +12,7 @@ import {
 
 import { highlight } from 'cli-highlight';
 
-// Helper to wrap long lines while preserving ANSI codes
+
 function wrapLineWithAnsi(line, maxWidth) {
   const plainLine = stripAnsi(line);
   
@@ -26,7 +23,7 @@ function wrapLineWithAnsi(line, maxWidth) {
   const wrappedLines = [];
   let currentPlainText = '';
   let currentLineWithAnsi = '';
-  let ansiState = ''; // Track current ANSI codes
+  let ansiState = ''; 
   let inAnsi = false;
   let ansiBuffer = '';
   
@@ -43,26 +40,23 @@ function wrapLineWithAnsi(line, maxWidth) {
       ansiBuffer += char;
       if (char === 'm') {
         inAnsi = false;
-        ansiState = ansiBuffer; // Update current state
+        ansiState = ansiBuffer; 
         currentLineWithAnsi += ansiBuffer;
         ansiBuffer = '';
       }
       continue;
     }
     
-    // Regular character
     currentPlainText += char;
     currentLineWithAnsi += char;
     
-    // Check if we need to wrap
     if (currentPlainText.length >= maxWidth) {
       wrappedLines.push(currentLineWithAnsi + reset);
       currentPlainText = '';
-      currentLineWithAnsi = ansiState; // Continue with current ANSI state
+      currentLineWithAnsi = ansiState; 
     }
   }
-  
-  // Add remaining text
+
   if (currentPlainText.length > 0) {
     wrappedLines.push(currentLineWithAnsi);
   }
@@ -81,7 +75,6 @@ export const renderCodeBlock = (code, language = 'javascript') => {
   const lineNumWidth = String(maxLineNum).length;
   const codeWidth = CONTENT_WIDTH - lineNumWidth - 5;
   
-  // Top border
   const topBorder = ' '.repeat(INNER_PADDING) 
     + codeColor 
     + '┌' 
@@ -92,7 +85,6 @@ export const renderCodeBlock = (code, language = 'javascript') => {
     + ' '.repeat(INNER_PADDING);
   printWithBorders(topBorder);
   
-  // Language label
   const langText = language || 'text';
   const langLine = ' '.repeat(INNER_PADDING) 
     + codeColor 
@@ -111,11 +103,9 @@ export const renderCodeBlock = (code, language = 'javascript') => {
     + ' '.repeat(INNER_PADDING);
   printWithBorders(langLine);
   
-  // Code lines
   lines.forEach((line, index) => {
     let highlightedLine = line;
-    
-    // Apply syntax highlighting
+
     if (line.trim()) {
       try {
         highlightedLine = highlight(line, { 
@@ -130,7 +120,6 @@ export const renderCodeBlock = (code, language = 'javascript') => {
     
     const lineNum = String(index + 1).padStart(lineNumWidth, ' ');
     
-    // Wrap long lines
     const wrappedLines = wrapLineWithAnsi(highlightedLine, codeWidth);
     
     wrappedLines.forEach((wrappedLine, wrapIndex) => {
@@ -161,7 +150,6 @@ export const renderCodeBlock = (code, language = 'javascript') => {
     });
   });
   
-  // Bottom border
   const bottomBorder = ' '.repeat(INNER_PADDING) 
     + codeColor 
     + '└' 

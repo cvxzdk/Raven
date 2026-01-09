@@ -1,6 +1,3 @@
-// src/ui/render/tables.js
-// Convert to ES modules
-
 import {
   PAGE_WIDTH,
   INNER_PADDING,
@@ -29,7 +26,6 @@ export const renderTable = (rows, hasHeader = true) => {
   const colWidths = Array(colCount).fill(Math.floor((CONTENT_WIDTH - 2) / colCount) - 3);
   const tableColor = fg(250);
 
-  // Top border
   let top = ' '.repeat(INNER_PADDING) + tableColor + '┌';
   colWidths.forEach((w, i) => {
     top += '─'.repeat(w + 2) + (i < colCount - 1 ? '┬' : '┐');
@@ -37,7 +33,6 @@ export const renderTable = (rows, hasHeader = true) => {
   top += reset + bgDark + ' '.repeat(INNER_PADDING);
   printWithBorders(top);
 
-  // Rows
   rows.forEach((row, rowIndex) => {
     const wrappedCells = row.map((cell, i) => wrapText(String(cell), colWidths[i]));
     const maxLines = Math.max(...wrappedCells.map(c => c.length));
@@ -62,7 +57,6 @@ export const renderTable = (rows, hasHeader = true) => {
     }
   });
 
-  // Bottom border
   let bottom = ' '.repeat(INNER_PADDING) + tableColor + '└';
   colWidths.forEach((w, i) => {
     bottom += '─'.repeat(w + 2) + (i < colCount - 1 ? '┴' : '┘');

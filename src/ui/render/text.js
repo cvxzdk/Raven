@@ -17,7 +17,6 @@ export const renderText = (text, wrap = true) => {
   const maxWidth = CONTENT_WIDTH;
 
   if (wrap) {
-    // Strip markdown for width calculation
     const plainText = stripInlineStyles(text);
     const lines = wrapText(plainText, maxWidth);
     

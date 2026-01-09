@@ -1,9 +1,3 @@
-// src/api/cache.js
-// API response caching
-
-/**
- * Simple in-memory cache for API responses
- */
 export class ResponseCache {
   constructor(maxSize = 100, ttl = 3600000) { // 1 hour default TTL
     this.cache = new Map();

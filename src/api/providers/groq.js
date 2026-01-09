@@ -1,4 +1,3 @@
-// src/api/providers/groq.js
 export class GroqProvider {
   constructor(client) {
     this.client = client;

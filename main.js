@@ -4,7 +4,6 @@ import { program } from 'commander';
 import { startChat } from './src/ui/views/chat.js';
 import { initializeConfig, getConfig, setConfig, displayConfig } from './src/commands/env.js';
 
-// Initialize config
 initializeConfig();
 
 program
@@ -12,7 +11,6 @@ program
   .description('Raven CLI - AI Chat Interface')
   .version('0.1.0');
 
-// Chat command
 program
   .command('chat')
   .description('Start chat interface')
@@ -25,7 +23,6 @@ program
     }
   });
 
-// Config commands
 program
   .command('config')
   .description('Manage configuration')

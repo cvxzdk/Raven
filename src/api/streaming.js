@@ -1,9 +1,3 @@
-// src/api/streaming.js
-// Handle streaming responses
-
-/**
- * Stream handler for real-time responses
- */
 export class StreamHandler {
   constructor() {
     this.buffer = '';
@@ -11,7 +5,6 @@ export class StreamHandler {
   }
 
   /**
-   * Start streaming
    * @param {Function} onChunk - Callback for each chunk
    * @param {Function} onComplete - Callback when complete
    */
@@ -23,7 +16,6 @@ export class StreamHandler {
   }
 
   /**
-   * Handle incoming chunk
    * @param {string} chunk - Text chunk
    */
   handleChunk(chunk) {
@@ -35,9 +27,6 @@ export class StreamHandler {
     }
   }
 
-  /**
-   * Complete streaming
-   */
   complete() {
     this.isStreaming = false;
     if (this.onComplete) {
@@ -45,17 +34,11 @@ export class StreamHandler {
     }
   }
 
-  /**
-   * Stop streaming
-   */
   stop() {
     this.isStreaming = false;
     this.buffer = '';
   }
 
-  /**
-   * Get current buffer
-   */
   getBuffer() {
     return this.buffer;
   }

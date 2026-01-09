@@ -1,6 +1,4 @@
-// src/ui/components/Input.js
-
-const BOX_WIDTH = 100; // Match the renderer's PAGE_WIDTH
+const BOX_WIDTH = 100;
 
 export class Input {
   constructor({ minHeight = 3, maxHeight = 8, onSubmit, onHeightChange }) {
@@ -21,7 +19,7 @@ export class Input {
 
     const promptPrefix = '> ';
     const fullText = promptPrefix + this.value;
-    const textWidth = BOX_WIDTH - 4; // Account for borders and padding
+    const textWidth = BOX_WIDTH - 4;
     
     const lines = Math.ceil(fullText.length / textWidth) || 1;
     const requiredHeight = Math.min(

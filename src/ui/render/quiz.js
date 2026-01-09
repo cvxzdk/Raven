@@ -1,6 +1,3 @@
-// src/ui/render/quiz.js
-// Convert to ES modules
-
 import {
   PAGE_WIDTH,
   INNER_PADDING,
@@ -23,7 +20,6 @@ export const renderQuiz = (question, options, correctAnswer = null) => {
 
   const maxWidth = CONTENT_WIDTH - 4;
 
-  // Top border
   const topBorder = ' '.repeat(INNER_PADDING)
     + quizColor
     + '┌'
@@ -34,7 +30,6 @@ export const renderQuiz = (question, options, correctAnswer = null) => {
     + ' '.repeat(INNER_PADDING);
   printWithBorders(topBorder);
 
-  // Question label
   const labelLine = ' '.repeat(INNER_PADDING)
     + quizColor
     + '│ '
@@ -50,7 +45,6 @@ export const renderQuiz = (question, options, correctAnswer = null) => {
     + ' '.repeat(INNER_PADDING);
   printWithBorders(labelLine);
 
-  // Separator
   const sep = ' '.repeat(INNER_PADDING)
     + quizColor
     + '├'
@@ -61,7 +55,6 @@ export const renderQuiz = (question, options, correctAnswer = null) => {
     + ' '.repeat(INNER_PADDING);
   printWithBorders(sep);
 
-  // Question text
   const wrappedQuestion = wrapText(question, maxWidth);
   wrappedQuestion.forEach(line => {
     const content = ' '.repeat(INNER_PADDING)
@@ -82,7 +75,6 @@ export const renderQuiz = (question, options, correctAnswer = null) => {
     printWithBorders(content);
   });
 
-  // Empty line
   const emptyLine = ' '.repeat(INNER_PADDING)
     + quizColor
     + '│ '
@@ -96,7 +88,6 @@ export const renderQuiz = (question, options, correctAnswer = null) => {
     + ' '.repeat(INNER_PADDING);
   printWithBorders(emptyLine);
 
-  // Options
   options.forEach((option, index) => {
     const letter = String.fromCharCode(65 + index);
     const isCorrect = correctAnswer !== null && index === correctAnswer;
@@ -126,7 +117,6 @@ export const renderQuiz = (question, options, correctAnswer = null) => {
     });
   });
 
-  // Bottom border
   const bottomBorder = ' '.repeat(INNER_PADDING)
     + quizColor
     + '└'

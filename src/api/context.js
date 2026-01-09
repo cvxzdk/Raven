@@ -1,6 +1,3 @@
-// src/api/context.js
-// Add the complete ContextManager with updateLastMessage
-
 export class ContextManager {
   constructor(maxMessages = 50) {
     this.messages = [];
@@ -21,7 +18,6 @@ export class ContextManager {
   }
 
   /**
-   * Update the last message's content (useful for streaming)
    * @param {string} content - New content
    */
   updateLastMessage(content) {
@@ -30,9 +26,6 @@ export class ContextManager {
     }
   }
 
-  /**
-   * Remove the last message
-   */
   removeLastMessage() {
     if (this.messages.length > 0) {
       this.messages.pop();

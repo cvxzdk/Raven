@@ -1,4 +1,3 @@
-// src/api/providers/anthropic.js
 export class AnthropicProvider {
   constructor(client) {
     this.client = client;

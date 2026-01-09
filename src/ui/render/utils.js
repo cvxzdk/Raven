@@ -1,4 +1,3 @@
-
 import { calculateDimensions } from './frame.js';
 
 export const getPageWidth = () => calculateDimensions().pageWidth;
