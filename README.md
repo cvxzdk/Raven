@@ -29,7 +29,7 @@ cd raven
 npm install
 
 ## Option 1: Run directly with Node
-node cli.js chat
+node main.js chat
 
 ## Option 2: Install globally and use anywhere
 # Link the package globally
