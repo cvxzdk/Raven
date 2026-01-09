@@ -4,20 +4,21 @@ import {
   CONTENT_WIDTH,
   bgDark,
   reset,
+  fg,
+  italic,
   printWithBorders,
   stripAnsi,
   wrapText,
   addSpacing
 } from './utils.js';
-import { applyInlineStyles } from './textStyles.js';
+import { applyInlineStyles, stripInlineStyles } from './textStyles.js';
 
 export const renderText = (text, wrap = true) => {
   const maxWidth = CONTENT_WIDTH;
 
-  const styledText = applyInlineStyles(text);
-
   if (wrap) {
-    const plainText = stripAnsi(text);
+    // Strip markdown for width calculation
+    const plainText = stripInlineStyles(text);
     const lines = wrapText(plainText, maxWidth);
     
     let charIndex = 0;
@@ -26,31 +27,36 @@ export const renderText = (text, wrap = true) => {
       const originalSegment = text.substring(charIndex, endIndex);
       const styledSegment = applyInlineStyles(originalSegment);
       
+      const plainLength = stripInlineStyles(styledSegment).length;
       const content = ' '.repeat(INNER_PADDING)
         + styledSegment
-        + ' '.repeat(maxWidth - stripAnsi(styledSegment).length)
+        + ' '.repeat(Math.max(0, maxWidth - plainLength))
         + ' '.repeat(INNER_PADDING);
       printWithBorders(content);
       
       charIndex = endIndex;
     });
   } else {
-    const plainLine = stripAnsi(styledText);
-    const displayLine = plainLine.length > maxWidth
-      ? plainLine.substring(0, maxWidth - 3) + '...'
-      : plainLine;
+    const plainText = stripInlineStyles(text);
+    const displayLine = plainText.length > maxWidth
+      ? text.substring(0, maxWidth - 3) + '...'
+      : text;
 
     const styledLine = applyInlineStyles(displayLine);
+    const plainLength = stripInlineStyles(styledLine).length;
     const content = ' '.repeat(INNER_PADDING)
       + styledLine
-      + ' '.repeat(maxWidth - stripAnsi(styledLine).length)
+      + ' '.repeat(Math.max(0, maxWidth - plainLength))
       + ' '.repeat(INNER_PADDING);
     printWithBorders(content);
   }
 };
 
 export const renderEmptyLine = () => {
-  printWithBorders(' '.repeat(PAGE_WIDTH));
+  const content = ' '.repeat(INNER_PADDING)
+    + ' '.repeat(CONTENT_WIDTH)
+    + ' '.repeat(INNER_PADDING);
+  printWithBorders(content);
 };
 
 export const renderBlockquote = (text) => {
@@ -65,7 +71,7 @@ export const renderBlockquote = (text) => {
     + fg(244)
     + italic
     + displayLine
-    + ' '.repeat(maxWidth - displayLine.length)
+    + ' '.repeat(Math.max(0, maxWidth - displayLine.length))
     + reset
     + bgDark
     + ' '.repeat(INNER_PADDING);

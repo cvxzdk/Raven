@@ -1,4 +1,4 @@
-import { fg, bold, italic, underline, reset, visibleLength } from './utils.js';
+import { fg, bold, italic, underline, reset, stripAnsi } from './utils.js';
 
 const codeColor = fg(107);
 const linkColor = fg(117);
@@ -9,19 +9,42 @@ export const applyInlineStyles = (text) => {
   
   let result = text;
 
-  result = result.replace(/__(.+?)__/g, `${bold}${underline}$1${reset}`);
+  // Process in order of specificity (most specific first)
   
-  result = result.replace(/\*\*(.+?)\*\*/g, `${bold}$1${reset}`);
+  // Bold + underline (__text__)
+  result = result.replace(/__(.+?)__/g, (match, content) => {
+    return `${bold}${underline}${content}${reset}`;
+  });
   
-  result = result.replace(/_(.+?)_/g, `${underline}$1${reset}`);
+  // Bold (**text**)
+  result = result.replace(/\*\*(.+?)\*\*/g, (match, content) => {
+    return `${bold}${content}${reset}`;
+  });
   
-  result = result.replace(/\*(.+?)\*/g, `${italic}$1${reset}`);
+  // Strikethrough (~~text~~) - before single underscores
+  result = result.replace(/~~(.+?)~~/g, (match, content) => {
+    return `${strikeColor}${content}${reset}`;
+  });
   
-  result = result.replace(/~~(.+?)~~/g, `${strikeColor}$1${reset}`);
+  // Inline code (`code`) - should NOT process other markdown inside
+  result = result.replace(/`([^`]+)`/g, (match, content) => {
+    return `${codeColor}${content}${reset}`;
+  });
   
-  result = result.replace(/`([^`]+)`/g, `${codeColor}$1${reset}`);
+  // Links ([text](url))
+  result = result.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, (match, text, url) => {
+    return `${linkColor}${text}${reset}`;
+  });
   
-  result = result.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, `${linkColor}$1${reset}`);
+  // Underline (_text_) - must not match __ (already processed)
+  result = result.replace(/(?<!_)_([^_]+?)_(?!_)/g, (match, content) => {
+    return `${underline}${content}${reset}`;
+  });
+  
+  // Italic (*text*) - must not match ** (already processed)
+  result = result.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, (match, content) => {
+    return `${italic}${content}${reset}`;
+  });
 
   return result;
 };
@@ -31,17 +54,20 @@ export const stripInlineStyles = (text) => {
   
   let result = text;
   
+  // Remove markdown syntax in same order
   result = result.replace(/__(.+?)__/g, '$1');
   result = result.replace(/\*\*(.+?)\*\*/g, '$1');
-  result = result.replace(/_(.+?)_/g, '$1');
-  result = result.replace(/\*(.+?)\*/g, '$1');
   result = result.replace(/~~(.+?)~~/g, '$1');
   result = result.replace(/`([^`]+)`/g, '$1');
   result = result.replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '$1');
+  result = result.replace(/(?<!_)_([^_]+?)_(?!_)/g, '$1');
+  result = result.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, '$1');
   
   return result;
-};
+}
 
 export const getStyledTextLength = (text) => {
-  return visibleLength(stripInlineStyles(text));
+  const withoutMarkdown = stripInlineStyles(text);
+  const withoutAnsi = stripAnsi(withoutMarkdown);
+  return withoutAnsi.length;
 };

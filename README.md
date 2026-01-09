@@ -11,7 +11,7 @@
 ---
 
 <p align="center">
-  <img src="packages/demo.gif" alt="Raven Demo" width="800" />
+  <img src="demo.gif" alt="Raven Demo" width="800" />
 </p>
 
 ---
