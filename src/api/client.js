@@ -4,7 +4,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from 'openai';
 import Groq from 'groq-sdk';
-import { getConfig } from '../config/manager.js';
+import { getConfig } from '../commands/env.js';
 
 /**
  * Get API keys from config

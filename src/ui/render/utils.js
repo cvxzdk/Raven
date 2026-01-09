@@ -1,10 +1,16 @@
-// src/ui/render/utils.js
-// Shared utilities for all renderers
 
-// Page configuration
+import { calculateDimensions, wrapWithBorders as frameWrapWithBorders } from './frame.js';
+
+// Export dynamic getters from frame.js
+export const getPageWidth = () => calculateDimensions().pageWidth;
+export const getInnerPadding = () => calculateDimensions().innerPadding;
+export const getContentWidth = () => calculateDimensions().contentWidth;
+export const getLeftPadding = () => calculateDimensions().leftPadding;
+
+// Keep these for backward compatibility
 export const PAGE_WIDTH = 100;
 export const INNER_PADDING = 5;
-export const CONTENT_WIDTH = PAGE_WIDTH - (INNER_PADDING * 2);
+export const CONTENT_WIDTH = 90;
 
 // 256-color helpers
 export const fg = (n) => `\x1b[38;5;${n}m`;
@@ -21,14 +27,6 @@ export const borderColor = fg(243);
 // Get terminal width
 export const getTerminalWidth = () => {
   return process.stdout.columns || 122;
-};
-
-// Calculate left padding for centering
-export const getLeftPadding = () => {
-  const termWidth = getTerminalWidth();
-  const pageWidth = PAGE_WIDTH + 2;
-  const padding = Math.max(0, Math.floor((termWidth - pageWidth) / 2));
-  return padding;
 };
 
 // Strip ANSI codes for accurate length
@@ -70,15 +68,12 @@ export const wrapText = (text, maxWidth) => {
   let currentLine = '';
 
   for (const word of words) {
-    // If the word itself is longer than maxWidth, break it into chunks
     if (word.length > maxWidth) {
-      // First, add current line if it has content
       if (currentLine) {
         lines.push(currentLine);
         currentLine = '';
       }
       
-      // Break the long word (like URLs) into chunks
       for (let i = 0; i < word.length; i += maxWidth) {
         const chunk = word.substring(i, i + maxWidth);
         lines.push(chunk);
@@ -99,7 +94,15 @@ export const wrapText = (text, maxWidth) => {
   return lines.length > 0 ? lines : [''];
 };
 
-// Add spacing between sections
+// Responsive text wrapping - uses terminal dimensions
+export const wrapTextResponsive = (text) => {
+  const { contentWidth } = calculateDimensions();
+  return wrapText(text, contentWidth);
+};
+
+// Add spacing between sections (flexible for any terminal size)
 export const addSpacing = () => {
-  printWithBorders(' '.repeat(PAGE_WIDTH));
+  const { contentWidth } = calculateDimensions();
+  const spacing = Math.max(1, Math.floor(contentWidth / 3));
+  printWithBorders(' '.repeat(spacing));
 };

@@ -1,15 +1,15 @@
 {
   "name": "raven",
-  "version": "0.1.0",
+  "version": "0.1.14",
   "type": "module",
   "description": "AI chat in your terminal",
-  "main": "cli.js",
+  "main": "main.js",
   "bin": {
-    "raven": "./cli.js"
+    "raven": "./main.js"
   },
   "scripts": {
-    "dev": "node cli.js chat",
-    "start": "node cli.js"
+    "dev": "node main.js chat",
+    "start": "node main.js"
   },
   "keywords": [
     "cli",

@@ -2,7 +2,7 @@
 
 import { program } from 'commander';
 import { startChat } from './src/ui/views/chat.js';
-import { initializeConfig, getConfig, setConfig, displayConfig } from './src/config/manager.js';
+import { initializeConfig, getConfig, setConfig, displayConfig } from './src/commands/env.js';
 
 // Initialize config
 initializeConfig();
@@ -20,7 +20,7 @@ program
     try {
       await startChat();
     } catch (error) {
-      console.error('❌ Failed to start chat:', error.message);
+      console.error('Failed to start chat:', error.message);
       process.exit(1);
     }
   });
@@ -38,7 +38,7 @@ program
   .description('Set configuration value')
   .action((key, value) => {
     setConfig(key, value);
-    console.log(`✅ Set ${key}`);
+    console.log('Set', key);
   });
 
 program
