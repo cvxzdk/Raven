@@ -4,7 +4,7 @@
 
 ### Added
 - Stable core architecture for production usage
-- Custom terminal user interface with responsive three-panel layout
+- Custom terminal user interface
 - Real-time streaming of model responses
 - Markdown rendering engine supporting headers, lists, tables, code blocks, and syntax highlighting for multiple languages
 - Support for Anthropic, OpenAI, and Groq API providers
