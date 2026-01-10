@@ -1,6 +1,6 @@
 import { calculateDimensions } from '../render/frame.js';
 
-const IDEAL_BOX_WIDTH = 100; // Ideal width when terminal is large enough
+const IDEAL_BOX_WIDTH = 100; 
 
 /**
  * @param {string} modelName - name of the AI model to display
@@ -17,7 +17,7 @@ export function getHeader(modelName = 'Claude', currentPath = '') {
   let lines = [];
 
   if (boxWidth < 80 || terminalWidth < 80) {
-    const compactLine1 = 'RAVEN v0.1.0';
+    const compactLine1 = 'RAVEN v1.0.0';
     const compactLine2 = `Model: ${modelName}`;
     const compactLine3 = `Path: ${currentPath}`;
     
@@ -30,7 +30,7 @@ export function getHeader(modelName = 'Claude', currentPath = '') {
     ];
   }
   else {
-    const line1 = '██████    ████  ██░░██  ██████  ██  ░░██  v0.1.0';
+    const line1 = '██████    ████  ██░░██  ██████  ██  ░░██  v1.0.0';
     const line2 = `██  ██  ██  ██  ██░░██  ██      ████░░██  ${modelName}`;
     const line3 = `████    ██████  ██  ██  ████    ██░░████  ${currentPath}`;
     const line4 = `██  ██  ██  ██    ██    ██████  ██░░  ██`;

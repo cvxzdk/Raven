@@ -1,6 +1,6 @@
 {
   "name": "raven",
-  "version": "0.1.14",
+  "version": "1.0.0",
   "type": "module",
   "description": "AI chat in your terminal",
   "main": "main.js",

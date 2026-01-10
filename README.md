@@ -5,7 +5,7 @@
 <p align="center">
   <img alt="Node.js" src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen?style=flat-square" />
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" />
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-orange?style=flat-square" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-orange?style=flat-square" />
 </p>
 
 ---
